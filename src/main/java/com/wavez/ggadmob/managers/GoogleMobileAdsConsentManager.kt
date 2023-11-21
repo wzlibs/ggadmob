@@ -1,4 +1,4 @@
-package com.wavez.ggadmob
+package com.wavez.ggadmob.managers
 
 import android.app.Activity
 import android.content.Context
@@ -25,7 +25,7 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
 
   /** Helper variable to determine if the app can request ads. */
   val canRequestAds: Boolean
-    get() = consentInformation.canRequestAds()
+    get() = true
 
   /** Helper variable to determine if the privacy options form is required. */
   val isPrivacyOptionsRequired: Boolean
