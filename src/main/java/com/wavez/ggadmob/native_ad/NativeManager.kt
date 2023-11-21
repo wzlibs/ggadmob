@@ -13,9 +13,9 @@ import com.wavez.ggadmob.managers.LoadingGapManager
 class NativeManager(
     private val id: String,
     private val context: Context,
-    private val sharedPref: AdmobConfigShared,
-    private val loadingGapManager: LoadingGapManager
+    private val sharedPref: AdmobConfigShared
 ) {
+    private val loadingGapManager = LoadingGapManager(sharedPref)
     private val onNativeChangedList = ArrayList<IOnNativeChanged>()
     private val nativeAds = ArrayList<NativeAd>()
     private var adLoader: AdLoader? = null
