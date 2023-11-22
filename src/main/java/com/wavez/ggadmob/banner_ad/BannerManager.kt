@@ -1,6 +1,7 @@
 package com.wavez.ggadmob.banner_ad
 
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ class BannerManager(
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
+        Log.d("log_test_123", "onCreate: ")
         adView = AdView(activity)
         areaBanner.addView(adView)
         if (GoogleMobileAdsConsentManager.getInstance(activity).canRequestAds) {
