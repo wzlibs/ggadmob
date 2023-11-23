@@ -19,7 +19,7 @@ import com.wavez.ggadmob.ad_configs.AdmobConfigShared
 import com.wavez.ggadmob.ad_configs.AdmobConfig.isAdShowingFullScreen
 import com.wavez.ggadmob.ad_configs.AdmobConfig.INTERSTITIAL_AD_VALID_TIME
 
-class RewardInterstitialAdManager(
+class RewardInterstitialAdManager private constructor(
     private val context: Context,
     private val sharedPref: AdmobConfigShared
 ) {
@@ -40,13 +40,13 @@ class RewardInterstitialAdManager(
     private var rewardRequest: Any? = null
     private var isUserEarnedReward: Boolean = false
 
-    fun interHighFloorId(id: String) = apply { interHighFloorId = id }
+    private fun interHighFloorId(id: String) = apply { interHighFloorId = id }
 
-    fun interMediumFloorId(id: String) = apply { interMediumFloorId = id }
+    private fun interMediumFloorId(id: String) = apply { interMediumFloorId = id }
 
-    fun interAllPricesId(id: String) = apply { interAllPricesId = id }
+    private fun interAllPricesId(id: String) = apply { interAllPricesId = id }
 
-    fun interstitialAds(id: String) = apply { interstitialAds = id }
+    private fun interstitialAds(id: String) = apply { interstitialAds = id }
 
     fun isAdAlready(): Boolean = rewardedInterstitialAd != null
 
@@ -114,7 +114,10 @@ class RewardInterstitialAdManager(
             override fun onAdDismissedFullScreenContent() {
                 super.onAdDismissedFullScreenContent()
                 isAdShowingFullScreen = false
-                onAdDismissedFullScreenContent?.onAdDismissedFullScreenContent(isUserEarnedReward, rewardRequest)
+                onAdDismissedFullScreenContent?.onAdDismissedFullScreenContent(
+                    isUserEarnedReward,
+                    rewardRequest
+                )
             }
 
             override fun onAdShowedFullScreenContent() {
@@ -135,10 +138,10 @@ class RewardInterstitialAdManager(
     }
 
     class Builder(private val context: Context, private val sharedPref: AdmobConfigShared) {
-        private lateinit var interHighFloorId: String
-        private lateinit var interMediumFloorId: String
-        private lateinit var interAllPricesId: String
-        private lateinit var interstitialAds: String
+        private var interHighFloorId: String? = null
+        private var interMediumFloorId: String? = null
+        private var interAllPricesId: String? = null
+        private var interstitialAds: String? = null
 
         fun interHighFloorId(id: String) = apply { interHighFloorId = id }
 
@@ -150,10 +153,10 @@ class RewardInterstitialAdManager(
 
         fun build(): RewardInterstitialAdManager {
             val manager = RewardInterstitialAdManager(context, sharedPref)
-            manager.interHighFloorId(interHighFloorId)
-            manager.interMediumFloorId(interMediumFloorId)
-            manager.interAllPricesId(interAllPricesId)
-            manager.interstitialAds(interstitialAds)
+            interHighFloorId?.let { manager.interHighFloorId(it) }
+            interMediumFloorId?.let { manager.interMediumFloorId(it) }
+            interAllPricesId?.let { manager.interAllPricesId(it) }
+            interstitialAds?.let { manager.interstitialAds(it) }
             return manager
         }
 

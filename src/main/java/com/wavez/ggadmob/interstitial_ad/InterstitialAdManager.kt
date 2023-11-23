@@ -14,7 +14,7 @@ import com.wavez.ggadmob.ad_configs.AdmobConfigShared
 import com.wavez.ggadmob.ad_configs.AdmobConfig.isAdShowingFullScreen
 import com.wavez.ggadmob.ad_configs.AdmobConfig.INTERSTITIAL_AD_VALID_TIME
 
-class InterstitialAdManager(
+class InterstitialAdManager private constructor(
     private val context: Context,
     private val sharedPref: AdmobConfigShared,
     private val loadingGapManager: LoadingGapManager
@@ -28,13 +28,13 @@ class InterstitialAdManager(
     private lateinit var interAllPricesId: String
     private lateinit var interstitialAds: String
 
-    fun interHighFloorId(id: String) = apply { interHighFloorId = id }
+    private fun interHighFloorId(id: String) = apply { interHighFloorId = id }
 
-    fun interMediumFloorId(id: String) = apply { interMediumFloorId = id }
+    private fun interMediumFloorId(id: String) = apply { interMediumFloorId = id }
 
-    fun interAllPricesId(id: String) = apply { interAllPricesId = id }
+    private fun interAllPricesId(id: String) = apply { interAllPricesId = id }
 
-    fun interstitialAds(id: String) = apply { interstitialAds = id }
+    private fun interstitialAds(id: String) = apply { interstitialAds = id }
 
     fun isAdAlready(): Boolean = interstitialAd != null
 
@@ -151,10 +151,10 @@ class InterstitialAdManager(
     }
 
     class Builder(private val context: Context, private val sharedPref: AdmobConfigShared) {
-        private lateinit var interHighFloorId: String
-        private lateinit var interMediumFloorId: String
-        private lateinit var interAllPricesId: String
-        private lateinit var interstitialAds: String
+        private var interHighFloorId: String?= null
+        private var interMediumFloorId: String?= null
+        private var interAllPricesId: String?= null
+        private var interstitialAds: String?= null
 
         fun interHighFloorId(id: String) = apply { interHighFloorId = id }
 
@@ -166,10 +166,10 @@ class InterstitialAdManager(
 
         fun build(): InterstitialAdManager {
             val manager = InterstitialAdManager(context, sharedPref, LoadingGapManager(sharedPref))
-            manager.interHighFloorId(interHighFloorId)
-            manager.interMediumFloorId(interMediumFloorId)
-            manager.interAllPricesId(interAllPricesId)
-            manager.interstitialAds(interstitialAds)
+            interHighFloorId?.let { manager.interHighFloorId(it) }
+            interMediumFloorId?.let { manager.interMediumFloorId(it) }
+            interAllPricesId?.let { manager.interAllPricesId(it) }
+            interstitialAds?.let { manager.interstitialAds(it) }
             return manager
         }
 
