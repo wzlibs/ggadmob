@@ -9,6 +9,7 @@ import com.wavez.ggadmob.ad_configs.AdmobConfigShared
 import com.wavez.ggadmob.banner_ad.BannerManager
 import com.wavez.ggadmob.interstitial_ad.InterstitialAdManager
 import com.wzlibs.core.BaseCoreActivity
+import com.wzlibs.core.Navigation
 import javax.inject.Inject
 
 abstract class AdsCoreActivity<T : ViewBinding> : BaseCoreActivity<T>() {
@@ -27,12 +28,22 @@ abstract class AdsCoreActivity<T : ViewBinding> : BaseCoreActivity<T>() {
         }
     }
 
-    override fun navigation(intent: Intent) {
+    override fun navigateTo(intent: Intent) {
         if (admobConfigShared.isUnlockedAd) {
-            super.navigation(intent)
+            super.navigateTo(intent)
         } else {
             interstitialAdManager.show(this) {
-                super.navigation(intent)
+                super.navigateTo(intent)
+            }
+        }
+    }
+
+    override fun navigateTo(navigation: Navigation) {
+        if (admobConfigShared.isUnlockedAd) {
+            super.navigateTo(navigation)
+        } else {
+            interstitialAdManager.show(this) {
+                super.navigateTo(navigation)
             }
         }
     }
